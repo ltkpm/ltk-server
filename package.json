@@ -1,0 +1,13 @@
+{
+  "name": "ltr",
+  "version": "1.0.0",
+  "description": "Wrapper for private Lotrèk repo",
+  "main": "server.js",
+  "author": "Lotrèk Digital Agency",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "fastify": "^0.35.5",
+    "lowdb": "^1.0.0"
+  }
+}
