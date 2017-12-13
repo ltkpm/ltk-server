@@ -1,9 +1,18 @@
 'use strict'
 
-var fastify = require('fastify')()
+const fastify = require('fastify')()
+const Database = require('./Database/db.js').Database
+
+var database = new Database()
+database.init()
 
 fastify.get("/api", async (request, reply) => {
-  return { "No buono" };
+  return { Hello: "No buono" };
+});
+
+
+fastify.get("/api/all", async (request, reply) => {
+  
 });
 
 fastify.listen(3000, function(err) {
