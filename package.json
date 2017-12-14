@@ -1,5 +1,5 @@
 {
-  "name": "ltr",
+  "name": "ltr_server",
   "version": "1.0.0",
   "description": "Wrapper for private Lotrèk repo",
   "main": "server.js",
