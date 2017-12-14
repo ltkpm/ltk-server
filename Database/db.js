@@ -9,27 +9,20 @@ var Database = function () {
     this.db
 }
 
-Database.prototype.init = function () {
+Database.prototype.init = function (database_path) {
+    if(database_path != undefined)
+        this.db_path = database_path
+
     fs.exists(this.db_path, (exists) => {
         console.log(exists ? 'it\'s there' : 'no db!');
         if (exists){
-
             this.existing = true
-            this.adapter = new FileSync(this.db_path);
-            this.db = low(this.adapter)
-            this.db.get('posts')
-                .push({ id: 2, title: 'lowdb is awesome' })
-                .write()
+            this.initAdapter()
         } 
         else{
             this.createDb()
-            this.adapter = new FileSync(this.db_path);
-            this.db = low(this.adapter)
-            this.db.defaults({ posts: [], user: {} })
-                .write()
-            this.db.get('posts')
-                .push({ id: 2, title: 'lowdb is awesome' })
-                .write()
+            this.initAdapter()
+            this.initDatabase()
         }
     });
 }
@@ -42,5 +35,22 @@ Database.prototype.createDb =  function () {
         console.log("The file was saved!");
     }); 
 }
+
+Database.prototype.initAdapter = function() {
+   this.adapter = new FileSync(this.db_path);
+   this.db = low(this.adapter);
+};
+
+Database.prototype.initDatabase = function() {
+  this.db.defaults().write(); //Rimane da mettere i default
+};
+
+Database.prototype.addPackage = function(package) {
+  this.db
+    .get("packages")
+    .push(package)
+    .write();
+};
+
 
 module.exports.Database = Database
