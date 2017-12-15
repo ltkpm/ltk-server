@@ -1,14 +1,14 @@
 const hasha = require('hasha')
 
-class Package {
-    constructor(package){
-        this.name = package.name
-        this.url = package.url
-        this.type = package.type
-        this.commit = package.commit
-        this.version = package.version
+class Repository {
+    constructor(repository){
+        this.name = repository.name
+        this.url = repository.url
+        this.type = repository.type
+        this.commit = repository.commit
+        this.version = repository.version
         this.hash = hasha(this.name + this.version)
     }
 }
 
-module.exports.Package = Package
+module.exports.Repository = Repository

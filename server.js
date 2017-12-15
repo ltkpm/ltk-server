@@ -4,7 +4,7 @@ const fastify = require('fastify')()
 const Database = require('./Database/db.js').Database
 const Validation = require('./Validation/validation.js').Validation
 const DefaultSchema = require("./Model/DefaultSchema.js").DefaultSchema
-
+const Repository = require("./Model/Repository.js").Repository
 
 var repository_db = new Database()
 var validator = new Validation()
