@@ -1,52 +1,77 @@
-const low = require("lowdb");
-const FileSync = require("lowdb/adapters/FileSync");
-const fs = require("fs");
+const low = require("lowdb")
+const FileSync = require("lowdb/adapters/FileSync")
+const fs = require("fs")
+const hasha = require('hasha')
 
-var Database = function() {
-  this.db_path = "Database/";
-  this.existing = false;
-  this.adapter;
-  this.db;
-};
+class Database {
 
-Database.prototype.init = function(db_name) {
-  this.db_path += db_name;
-  fs.exists(this.db_path, exists => {
-    console.log(exists ? "it's there" : "no db!");
-    if (exists) {
-      this.existing = true;
-      this.initAdapter();
+  constructor() {
+    this.db_path = "Storage/"
+    this.db_file
+    this.existing = false
+    this.adapter
+    this.db
+  }
+
+  init(db_name, schema) {
+    if (!db_name.endsWith(".json")) {
+      this.db_file = db_name + '.json'
     } else {
-      this.createDb();
-      this.initAdapter();
-      this.initDatabase();
+      this.db_file = db_name;
     }
-  });
-};
 
-Database.prototype.createDb = function() {
-  fs.writeFile(this.db_path, "", function(err) {
-    if (err) {
-      return console.log(err);
+    fs.exists(this.db_path + this.db_file, exists => {
+      console.log(exists ? "it's there" : "no db!")
+      if (exists) {
+        this.existing = true
+        this.initAdapter()
+      } else {
+        this.createDb()
+        this.initAdapter()
+        this.initDatabase(schema)
+      }
+    })
+  }
+
+  createDb() {
+    if (!fs.existsSync(this.db_path)) {
+      fs.mkdirSync(this.db_path);
     }
-    console.log("The file was saved!");
-  });
-};
+    fs.writeFile(this.getFullPath(), "", function (err) {
+      if (err) {
+        return console.log(err)
+      }
+      console.log("The file was saved!")
+    })
+  }
 
-Database.prototype.initAdapter = function() {
-  this.adapter = new FileSync(this.db_path);
-  this.db = low(this.adapter);
-};
+  initAdapter() {
+    this.adapter = new FileSync(this.db_path + this.db_file)
+    this.db = low(this.adapter)
+  }
 
-Database.prototype.initDatabase = function() {
-  this.db.defaults().write(); //Rimane da mettere i default
-};
+  initDatabase(schema) {
+    this.db.defaults(schema).write()
+  }
 
-Database.prototype.addElement = function(node,package) {
-  this.db
-    .get(node)
-    .push(package)
-    .write();
-};
+  getFullPath() {
+    if ((this.db_file == undefined) || (this.db_path == undefined)) return undefined
+    return "" + this.db_path + this.db_file
+  }
 
-module.exports.Database = Database;
+  addElement(node, repository) {
+    let element = this.db.get(node)
+      .find({
+        name: repository.name
+      }).value()
+      console.log(element)
+    if (element == undefined) {
+      this.db
+        .get(node)
+        .push(repository)
+        .write()
+    }
+  }
+}
+
+module.exports.Database = Database
