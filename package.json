@@ -8,6 +8,9 @@
   "private": true,
   "dependencies": {
     "fastify": "^0.35.5",
-    "lowdb": "^1.0.0"
+    "global": "^4.3.2",
+    "hasha": "^3.0.0",
+    "lowdb": "^1.0.0",
+    "validate": "^3.0.1"
   }
 }
