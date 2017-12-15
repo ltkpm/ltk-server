@@ -62,9 +62,8 @@ class Database {
   addElement(node, repository) {
     let element = this.db.get(node)
       .find({
-        name: repository.name
+        hash: repository.hash
       }).value()
-      console.log(element)
     if (element == undefined) {
       this.db
         .get(node)
