@@ -37,7 +37,7 @@ class Validation {
   validateRepository(repository) {
     let result = undefined;
     try {
-      result = this.repository.validate(this.repository);
+      result = this.repository.validate(repository);
     } catch (error) {
       console.log(error);
       return false;
