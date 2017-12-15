@@ -1,13 +1,14 @@
+const hasha = require('hasha')
 
-
-var Repository = function () {
-    this.name
-    this.url
-    this.type
-    this.commit
-    this.version
+class Package {
+    constructor(package){
+        this.name = package.name
+        this.url = package.url
+        this.type = package.type
+        this.commit = package.commit
+        this.version = package.version
+        this.hash = hasha(this.name + this.version)
+    }
 }
 
-Repository.prototype.init() = function () {
-    
-}
+module.exports.Package = Package
