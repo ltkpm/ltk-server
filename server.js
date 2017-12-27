@@ -44,8 +44,13 @@ function start(opts, callback) {
     else return "Error 404"
   });
 
+  fastify.get("/", async (request, reply) => {
+     reply.send({ hello: 'world' })
+  });
+
   fastify.listen(opts.port, function (err) {
     if (err) throw err;
+    callback(err, fastify)
     fastify.log.info(`server listening on ${fastify.server.address().port}`);
   });
 }
