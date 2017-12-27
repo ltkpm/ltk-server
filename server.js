@@ -19,7 +19,7 @@ function start(opts, callback) {
 
   fastify.get(api_prefix, async (request, reply) => {
     repository_db.addElement('repos', repo)
-    return { Hello: "No buono" };
+    reply.send("Welcome to the API service")
   });
 
   fastify.post(api_prefix + "/add", async (request, reply) => {
@@ -33,14 +33,14 @@ function start(opts, callback) {
     else {
       response = { Result: "Oh no!" }
     }
-    return response
+    reply.send(response)
   })
 
   fastify.get(api_prefix + "/:repo", async (request, reply) => {
     console.log(request.params)
-    let result = repository_db.getElementByName(request.params.repo)
-    if (result != undefined)
-      return result
+    let response = repository_db.getElementByName(request.params.repo)
+    if (response != undefined)
+      reply.send(response)
     else return "Error 404"
   });
 
