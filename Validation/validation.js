@@ -26,7 +26,7 @@ class Validation {
       },
       version: {
         type: "number",
-        required: false,
+        required: true,
         message: "Version is required."
       }
     }, {
@@ -37,14 +37,22 @@ class Validation {
   validateRepository(repository) {
     let result = undefined;
     try {
-      result = this.repository.validate(repository);
+       result = this.isValid(this.repository.validate(repository))
     } catch (error) {
       console.log(error);
       return false;
     }
     return result;
   }
+
+  isValid(object) {
+    let tmp_res = false
+    if (object && object.length === 0) tmp_res = true
+    return tmp_res 
+  }
 }
+
+
 
 
 module.exports.Validation = Validation
