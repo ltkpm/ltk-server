@@ -5,12 +5,13 @@ const hasha = require('hasha')
 
 class Database {
 
-  constructor() {
+  constructor(defaultNode) {
     this.db_path = "Storage/"
     this.db_file
     this.existing = false
     this.adapter
     this.db
+    this.node = defaultNode
   }
 
   init(db_name, schema) {
@@ -59,17 +60,21 @@ class Database {
     return "" + this.db_path + this.db_file
   }
 
-  addElement(node, repository) {
-    let element = this.db.get(node)
+  addElement(repository) {
+    let element = this.db.get(this.node)
       .find({
         hash: repository.hash
       }).value()
     if (element == undefined) {
       this.db
-        .get(node)
+        .get(this.node)
         .push(repository)
         .write()
     }
+  }
+
+  getElementByName(name_repository) {
+    return this.db.get('repos').find({ name: name_repository }).value()
   }
 }
 
