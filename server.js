@@ -44,8 +44,15 @@ function start(opts, callback) {
     else return "Error 404"
   });
 
+  fastify.get(api_prefix + "/all", async (request, reply) => {
+    let response = repository_db.getAllElement()
+    if (response != undefined)
+      reply.send(response)
+    else return "Error 404"
+  });
+
   fastify.get("/", async (request, reply) => {
-     reply.send({ hello: 'world' })
+     reply.send({ Lotrek: 'human before digital' })
   });
 
   fastify.listen(opts.port, function (err) {

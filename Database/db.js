@@ -76,6 +76,10 @@ class Database {
   getElementByName(name_repository) {
     return this.db.get('repos').find({ name: name_repository }).value()
   }
+
+  getAllElement() {
+    return this.db.get('repos').value()
+  }
 }
 
 module.exports.Database = Database
