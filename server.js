@@ -30,10 +30,14 @@ function start(opts, callback) {
       let result_db = repository_db.addElement(tmp_repo)
       if(result_db)
         response = { Result: "Added to db!" }
-      else response = { Result: "This repo already exists"}
+      else {
+        response = { Result: "This repo already exists" }
+        reply.code(400)
+      }
     }
     else {
       response = { Result: "Oh no! Your package is not valid" }
+      reply.code(400)
     }
     reply.send(response)
   })
@@ -42,27 +46,27 @@ function start(opts, callback) {
     let response = repository_db.getElementByName(request.params.repo)
     if (response != undefined)
       reply.send(response)
-    else return "Error 404"
+    else reply.code(404).send("Specified repo doesn't exists")
   })
 
   fastify.get(api_prefix + "/repos/", async (request, reply) => {
     let response = repository_db.getAllElement()
     if (response != undefined)
       reply.send(response)
-    else return "Error 404"
+    reply.code(400).send("Something went wrong")
   })
 
   fastify.delete(api_prefix + "/repos/:repo_hash", async (request, reply) => {
     let response = repository_db.deleteElement(request.params.repo_hash)
     if (response != undefined)
       reply.send(response)
-    else return "Error 404"
+    else reply.code(404).send("Specified repo doesn't exists")
   })
 
   fastify.get("/", async (request, reply) => {
      reply.send({ Lotrek: 'human before digital' })
   })
-
+  
   fastify.listen(opts.port, function (err) {
     if (err) throw err;
     callback(err, fastify)
