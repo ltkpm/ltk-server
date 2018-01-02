@@ -23,7 +23,6 @@ class Validation {
       commit: {
         type: "string",
         required: false,
-        message: "Commit is required."
       },
       version: {
         type: "number",

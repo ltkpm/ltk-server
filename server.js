@@ -7,12 +7,16 @@ const Validation = require('./Validation/Validation.js').Validation
 const DefaultSchema = require("./Model/DefaultSchema.js").DefaultSchema
 const Repository = require("./Model/Repository.js").Repository
 
+
+
+var repository_db
+var repository_db_node = "repos"
+
 function start(opts, callback) {
 
   var validator = new Validation()
   var default_schema = new DefaultSchema()
-  var repository_db_node = "repos"
-  var repository_db = new Database(repository_db_node)
+  repository_db = new Database(repository_db_node)
   const api_prefix = "/api"
 
   repository_db.init(repository_db_node, default_schema.repository_schema);
@@ -28,8 +32,10 @@ function start(opts, callback) {
     if (result_validation) {
       let tmp_repo = new Repository(request.body)
       let result_db = repository_db.addElement(tmp_repo)
-      if(result_db)
+      if(result_db){
         response = { Result: "Added to db!" }
+        reply.code(200)
+      } 
       else {
         response = { Result: "This repo already exists" }
         reply.code(400)
@@ -90,6 +96,10 @@ if (require.main === module) {
   })
 }
 
+
+function resetDb(){
+  repository_db.deleteDb()
+}
 // Here we are exposing the function that starts the server
 // in this way inside the test files we can require and run it.
-module.exports = { start }
+module.exports = { start, resetDb }

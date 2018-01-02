@@ -45,6 +45,10 @@ class Database {
     })
   }
 
+  deleteDb(){
+    this.db.get(this.node).remove().write()
+  }
+
   initAdapter() {
     this.adapter = new FileSync(this.db_path + this.db_file)
     this.db = low(this.adapter)
