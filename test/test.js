@@ -14,7 +14,6 @@ server.start({ port: 0 }, (err, server_connection) => {
 
 
 function stopServer() {
-    console.log("Stop the server")
     setTimeout(() => {
         fastify.close()
     }, 1000);
