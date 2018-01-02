@@ -64,7 +64,6 @@ class Database {
   }
 
   addElement(repository) {
-    console.log("add repo "+repository)
     let element = this.db.get(this.node)
       .find({
         hash: repository.hash
