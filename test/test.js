@@ -1,24 +1,46 @@
-const t = require('tap')
-const test = t.test
-const request = require('request')
+const chakram = require('chakram')
+const expect = chakram.expect;
 const server = require('../server')
 
 // Run the server
-server.start({ port: 0 }, (err, fastify) => {
-    t.error(err)
+var url = undefined
+var fastify = undefined
 
-    test('The server should start', t => {
-        t.plan(3)
-        // Perform the request
-        request({
-            method: 'GET',
-            uri: `http://localhost:${fastify.server.address().port}`
-        }, (err, response, body) => {
-            // Unit test
-            t.error(err)
-            t.strictEqual(response.statusCode, 200)
-            t.strictEqual(response.headers['content-length'], '' + body.length)
-            fastify.close()
-        })
+server.start({ port: 0 }, (err, server_connection) => {
+    url = `http://localhost:${server_connection.server.address().port}`
+    fastify = server_connection
+})
+
+function stopServer() {
+    console.log("Stop the server")
+    setTimeout(() => {
+        fastify.close()
+    }, 3000);
+}
+
+
+
+describe("Test server start", function () {
+    after(function () {
+        stopServer()
     })
+    it("should fail - wait", function () {
+        return chakram.get(url).then(function (binResponse) {
+            const mockText = "human before digital"
+            expect(binResponse.body.Lotrek).to.contain(mockText);
+        })
+    });
+})
+
+
+describe("", function () {
+    after(function () {
+        stopServer()
+    })
+    it("should fail - wait", function () {
+        return chakram.get(url).then(function (binResponse) {
+            const mockText = "human before digital"
+            expect(binResponse.body.Lotrek).to.contain(mockText);
+        })
+    });
 })
