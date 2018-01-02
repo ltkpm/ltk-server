@@ -80,6 +80,10 @@ class Database {
   getAllElement() {
     return this.db.get('repos').value()
   }
+
+  deleteElement(name_repository) {
+    return this.db.get('repos').remove({ name: name_repository})
+  }
 }
 
 module.exports.Database = Database

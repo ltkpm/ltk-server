@@ -51,6 +51,13 @@ function start(opts, callback) {
     else return "Error 404"
   });
 
+  fastify.delete(api_prefix + "/repos/:repo", async (request, reply) => {
+    let response = repository_db.getAllElement()
+    if (response != undefined)
+      reply.send(response)
+    else return "Error 404"
+  });
+
   fastify.get("/", async (request, reply) => {
      reply.send({ Lotrek: 'human before digital' })
   });
