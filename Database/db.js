@@ -70,7 +70,11 @@ class Database {
         .get(this.node)
         .push(repository)
         .write()
+
+        return true
     }
+
+    return false
   }
 
   getElementByName(repository_name) {

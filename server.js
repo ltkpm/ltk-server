@@ -24,20 +24,21 @@ function start(opts, callback) {
 
   fastify.post(api_prefix + "/repos/", async (request, reply) => {
     let response = undefined
-    let tmp_repo = new Repository(request.body)
-    let result = validator.validateRepository(tmp_repo)
-    if (result) {
-      repository_db.addElement(repository_db_node, tmp_repo)
-      response = { Result: "Added to db!" }
+    let result_validation = validator.validateRepository(request.body)
+    if (result_validation) {
+      let tmp_repo = new Repository(request.body)
+      let result_db = repository_db.addElement(tmp_repo)
+      if(result_db)
+        response = { Result: "Added to db!" }
+      else response = { Result: "This repo already exists"}
     }
     else {
-      response = { Result: "Oh no!" }
+      response = { Result: "Oh no! Your package is not valid" }
     }
     reply.send(response)
   })
 
   fastify.get(api_prefix + "/repos/:repo", async (request, reply) => {
-    console.log(request.params)
     let response = repository_db.getElementByName(request.params.repo)
     if (response != undefined)
       reply.send(response)
@@ -51,8 +52,8 @@ function start(opts, callback) {
     else return "Error 404"
   })
 
-  fastify.delete(api_prefix + "/repos/:repo", async (request, reply) => {
-    let response = repository_db.getAllElement()
+  fastify.delete(api_prefix + "/repos/:repo_hash", async (request, reply) => {
+    let response = repository_db.deleteElement(request.params.repo_hash)
     if (response != undefined)
       reply.send(response)
     else return "Error 404"
