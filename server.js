@@ -42,31 +42,31 @@ function start(opts, callback) {
     if (response != undefined)
       reply.send(response)
     else return "Error 404"
-  });
+  })
 
   fastify.get(api_prefix + "/repos/", async (request, reply) => {
     let response = repository_db.getAllElement()
     if (response != undefined)
       reply.send(response)
     else return "Error 404"
-  });
+  })
 
   fastify.delete(api_prefix + "/repos/:repo", async (request, reply) => {
     let response = repository_db.getAllElement()
     if (response != undefined)
       reply.send(response)
     else return "Error 404"
-  });
+  })
 
   fastify.get("/", async (request, reply) => {
      reply.send({ Lotrek: 'human before digital' })
-  });
+  })
 
   fastify.listen(opts.port, function (err) {
     if (err) throw err;
     callback(err, fastify)
     fastify.log.info(`server listening on ${fastify.server.address().port}`);
-  });
+  })
 }
 
 if (require.main === module) {
