@@ -22,7 +22,6 @@ class Database {
     }
 
     fs.exists(this.db_path + this.db_file, exists => {
-      console.log(exists ? "it's there" : "no db!")
       if (exists) {
         this.existing = true
         this.initAdapter()
@@ -61,6 +60,7 @@ class Database {
   }
 
   addElement(repository) {
+    console.log("add repo "+repository)
     let element = this.db.get(this.node)
       .find({
         hash: repository.hash
@@ -73,16 +73,16 @@ class Database {
     }
   }
 
-  getElementByName(name_repository) {
-    return this.db.get('repos').find({ name: name_repository }).value()
+  getElementByName(repository_name) {
+    return this.db.get('repos').find({ name: repository_name }).value()
   }
 
   getAllElement() {
     return this.db.get('repos').value()
   }
 
-  deleteElement(name_repository) {
-    return this.db.get('repos').remove({ name: name_repository})
+  deleteElement(repository_hash) {
+    return this.db.get('repos').remove({ hash: repository_hash }).write()
   }
 }
 

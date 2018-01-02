@@ -7,7 +7,7 @@ class Repository {
         this.type = repository.type
         this.commit = repository.commit
         this.version = repository.version
-        this.hash = hasha(this.name + this.version)
+        this.hash = hasha(repository.name + repository.version)
     }
 }
 
