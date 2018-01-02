@@ -22,7 +22,7 @@ function start(opts, callback) {
     reply.send("Welcome to the API service")
   });
 
-  fastify.post(api_prefix + "/add", async (request, reply) => {
+  fastify.post(api_prefix + "/repos/", async (request, reply) => {
     let response = undefined
     let tmp_repo = new Repository(request.body)
     let result = validator.validateRepository(tmp_repo)
@@ -36,7 +36,7 @@ function start(opts, callback) {
     reply.send(response)
   })
 
-  fastify.get(api_prefix + "/:repo", async (request, reply) => {
+  fastify.get(api_prefix + "/repos/:repo", async (request, reply) => {
     console.log(request.params)
     let response = repository_db.getElementByName(request.params.repo)
     if (response != undefined)
@@ -44,7 +44,7 @@ function start(opts, callback) {
     else return "Error 404"
   });
 
-  fastify.get(api_prefix + "/all", async (request, reply) => {
+  fastify.get(api_prefix + "/repos/", async (request, reply) => {
     let response = repository_db.getAllElement()
     if (response != undefined)
       reply.send(response)
