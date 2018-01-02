@@ -1,5 +1,5 @@
 {
-  "name": "ltr_server",
+  "name": "ltk_server",
   "version": "1.0.0",
   "description": "Wrapper for private Lotrèk repo",
   "main": "server.js",
@@ -15,11 +15,11 @@
     "hasha": "^3.0.0",
     "lowdb": "^1.0.0",
     "minimist": "^1.2.0",
-    "mocha": "^4.0.1",
     "validate": "^3.0.1"
   },
   "devDependencies": {
     "chakram": "^1.5.0",
+    "mocha": "^4.0.1",
     "nodemon": "^1.14.7"
   }
 }
