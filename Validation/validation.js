@@ -17,7 +17,7 @@ class Validation {
       type: {
         type: "string",
         required: true,
-        match: /^(npm|pip)$/,
+        match: /^(node|python)$/,
         message: "Type is required."
       },
       commit: {
